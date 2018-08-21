@@ -1,0 +1,37 @@
+{
+  "name": "frontwise/craft-entryrelationsmanager",
+  "description": "Keep track of relations to entries. See which entries are safe to delete, and easily replace entry relations",
+  "version": "1.0.0",
+  "type": "craft-plugin",
+  "keywords": [
+        "craft",
+        "cms",
+        "craftcms",
+        "craft-plugin",
+        "craft3",
+        "entries",
+        "relations"
+  ],
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Frontwise",
+      "email": "contact@frontwise.com",
+      "homepage": "https://frontwise.com"
+    }
+  ],
+  "require": {
+    "craftcms/cms": "^3.0.20"
+  },
+  "autoload": {
+    "psr-4": {
+      "frontwise\\entryrelationsmanager\\": "src/"
+    }
+  },
+  "extra": {
+    "name": "Entry relations",
+    "handle": "entry-relations-manager",
+    "hasCpSection": true,
+    "class": "frontwise\\entryrelationsmanager\\EntryRelationsManagerPlugin"
+  }
+}

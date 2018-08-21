@@ -1,0 +1,36 @@
+.elements .tableview .entryrelationsmanager .toggle {
+    top: auto;
+    cursor: pointer;
+}
+
+.elements .tableview .entryrelationsmanager .toggle + .label {
+    cursor: pointer;
+}
+
+.entryrelationsmanager .subrow {
+    padding-left: 30px;
+}
+
+.entryrelationsmanager .targets {
+    width: calc(100% - 30px);
+    margin: 2px 8px 3px;
+    border-radius: 4px;
+    border: 1px solid #e3e5e8;
+    background: #fafafa;
+    padding: 0 20px;
+}
+
+.entryrelationsmanager .trigger:hover > th,
+.entryrelationsmanager .trigger:hover > td {
+    background: rgba(41, 50, 61, 0.05);
+    cursor: pointer;
+}
+
+.entryrelationsmanager .icon.edit::before {
+    content: 'edit';
+    color: rgba(0, 0, 0, 0.2);
+}
+
+.entryrelationsmanager .icon.edit:hover::before {
+    color: #D0021B;
+}

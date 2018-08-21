@@ -1,0 +1,89 @@
+<thead>
+    <th scope="col">{{ "Relation Field Name" | t('entryrelationsmanager') }}</th>
+    <th scope="col">{{ "Handle" | t('entryrelationsmanager') }}</th>
+    <th scope="col">{{ "Target entries" | t('entryrelationsmanager') }}</th>
+    <th scope="col">{{ "Total relations" | t('entryrelationsmanager') }}</th>
+    <th class="thin" colspan="2"></th>
+</thead>
+<tbody>
+    {% for row in fields %}
+        {% set field = row.field %}
+        <tr data-id="{{ field.id }}" class="{{ row.relationsCount > 0 or row.count > 0 ? 'trigger' }}">
+            <th scope="row" data-title="Name">
+                {{ field.name }}
+            </th>
+            <td>
+                {{ field.handle }}
+            </td>
+            <td>
+                {% if row.count == 0 %}
+                    0
+                {% else %}
+                    <div class="toggle" title="{{ 'Show/hide targeted entries'|t('entryrelationsmanager') }}"></div>
+                    <span class="label">
+                        {{ row.count }}
+                    </span>
+                {% endif %}
+            </td>
+            <td>
+                {{ row.relationsCount }}
+            </td>
+        </tr>
+        <tr style="display: none">
+            <td colspan="100" class="subrow">
+                <table class="data fullwidth targets">
+                    <thead>
+                        <th>{{ "Target Entry Title" | t('entryrelationsmanager') }}</th>
+                        <th>{{ "Target Entry Section" | t('entryrelationsmanager') }}</th>
+                        <th>{{ "Relations" | t('entryrelationsmanager') }}</th>
+                        <th></th>
+                    </thead>
+                    <tbody>
+                        {% set totalFieldRelations = 0 %}
+                        {% for target in row.targets %}
+                            <tr class="{{ row.targetsCount[target.id] is defined and row.targetsCount[target.id] > 0 ? 'trigger' }}">
+                                <td>
+                                    {{ target }}
+                                </td>
+                                <td>
+                                    {{ target.section }}
+                                </td>
+                                <td>
+                                    {% if row.targetsCount[target.id] is not defined or row.targetsCount[target.id] == 0 %}
+                                        0
+                                    {% else %}
+                                        {% set totalFieldRelations = totalFieldRelations + row.targetsCount[target.id] %}
+                                        <div class="toggle"></div>
+                                        {{ row.targetsCount[target.id] }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a class="edit icon" title="{{ 'Replace relations with another' | t('entryrelationsmanager') ~ ' ' ~ field.name }}" href="#" data-target-id="{{ target.id }}" data-field-id="{{ field.id }}" data-sources="{{ field.sources|json_encode|e('html') }}" data-localize-relations="{{ field.localizeRelations }}" data-target-site-id="{{ field.targetSiteId }}"></a>
+                                    &nbsp;
+                                    &nbsp;
+                                    <a class="remove delete icon" title="{{ 'Remove relations' | t('entryrelationsmanager') }}" role="button" href="#" data-target-id="{{ target.id }}" data-field-id="{{ field.id }}"></a>
+                                </td>
+                            </tr>
+                            <tr style="display: none">
+                                <td class="subrow">
+                                    {% set relations = craft.entries.siteId(siteId).relatedTo({targetElement: target}).all() %}
+                                    {% for relation in relations %}
+                                        <a href="{{ relation.cpEditUrl }}">{{ relation }} ({{ relation.section }})</a><br />
+                                    {% endfor %}
+                                </td>
+                                <td></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                {% if row.relationsCount > totalFieldRelations %}
+                    <em>
+                        {{ 'This field has relations to entries that do not exist for this site (anymore).' | t('entryrelationsmanager') }}
+                        <a href="#" class="remove" data-field-id="{{ field.id }}">{{ 'Remove relations' | t('entryrelationsmanager') }}</a>
+                    </em>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+</tbody>
