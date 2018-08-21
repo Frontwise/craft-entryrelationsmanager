@@ -6,17 +6,12 @@ This plugin requires Craft CMS 3.0.20 or later.
 
 ## Installation
 
-To install the plugin, use the Plugin section in your Craft control panel or follow these instructions.
+To install the plugin, follow these steps:
 
-1. Open your terminal and go to your Craft project:
+1. Go to the Craft Plugin Store and search for 'Entry Relations Manager'.
 
-        cd /path/to/project
+2. Buy or try the plugin
 
-2. Then tell Composer to load the plugin:
+3. Go to Settings > Plugins
 
-        composer require frontwise/craft-entryrelationsmanager
-
-3. In the Control Panel, go to Settings → Plugins and click the “Install” button for Entry Relations Manager plugin.
-
-4. The Entry Relations Manager plugin will be visible in the settings view on in the plugins section
-
+4. Install the Entry Relations Manager plugin

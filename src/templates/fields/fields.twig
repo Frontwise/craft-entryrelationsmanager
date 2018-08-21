@@ -6,6 +6,14 @@
     <th class="thin" colspan="2"></th>
 </thead>
 <tbody>
+    {% if fields is empty %}
+        <tr>
+            <td colspan="100">
+                You don't have any Entries fields. Maybe you'd like to <a href="{{ url('settings/fields/new') }}">create</a> some.
+            </td>
+        </tr>
+    {% endif %}
+
     {% for row in fields %}
         {% set field = row.field %}
         <tr data-id="{{ field.id }}" class="{{ row.relationsCount > 0 or row.count > 0 ? 'trigger' }}">
@@ -19,7 +27,7 @@
                 {% if row.count == 0 %}
                     0
                 {% else %}
-                    <div class="toggle" title="{{ 'Show/hide targeted entries'|t('entryrelationsmanager') }}"></div>
+                    <div class="toggle" title="{{ "Show/hide targeted entries" | t('entryrelationsmanager') }}"></div>
                     <span class="label">
                         {{ row.count }}
                     </span>

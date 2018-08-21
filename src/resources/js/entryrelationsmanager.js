@@ -5,28 +5,39 @@ $(function () {
         $(this).closest('tr').find('.toggle').toggleClass('expanded');
     });
 
-    var $siteMenuBtn = $('.sitemenubtn');
-    var siteMenu = $siteMenuBtn.menubtn().data('menubtn').menu;
+    var $siteMenuBtn = $('.sitemenubtn:first');
+    if ($siteMenuBtn.length) {
+        var siteMenu = $siteMenuBtn.menubtn().data('menubtn').menu;
 
-    // On change site menu button, get data
-    siteMenu.on('optionselect', function(ev) {
-        siteMenu.$options.removeClass('sel');
-        var $option = $(ev.selectedOption).addClass('se');
-        $siteMenuBtn.html($option.html());
-        var siteId = $option.data('site-id');
-        Craft.setLocalStorage('BaseElementIndex.siteId', siteId);
-        Craft.postActionRequest('entry-relations-manager/fields/fields', { siteId: siteId }, function(response, textStatus) {
+        // On change site menu button, get data
+        siteMenu.on('optionselect', function(ev) {
+            siteMenu.$options.removeClass('sel');
+            var $option = $(ev.selectedOption).addClass('se');
+            $siteMenuBtn.html($option.html());
+            var siteId = $option.data('site-id');
+            Craft.setLocalStorage('BaseElementIndex.siteId', siteId);
+            Craft.postActionRequest('entry-relations-manager/fields/fields', { siteId: siteId }, function(response, textStatus) {
+                $('.entryrelationsmanager').html(response.html);
+            });
+        });
+
+        // Set initially chosen site
+        var storedSiteId = Craft.getLocalStorage('BaseElementIndex.siteId');
+        var $storedSiteOption = siteMenu.$options.filter('[data-site-id="' + storedSiteId + '"]:first');
+
+        if ($storedSiteOption.length) {
+            $storedSiteOption.trigger('click');
+        } else {
+            Craft.postActionRequest('entry-relations-manager/fields/fields', {}, function(response, textStatus) {
+                $('.entryrelationsmanager').html(response.html);
+            });
+        }
+    } else {
+        Craft.postActionRequest('entry-relations-manager/fields/fields', {}, function(response, textStatus) {
             $('.entryrelationsmanager').html(response.html);
         });
-    });
-
-    // Set initially chosen site
-    var storedSiteId = Craft.getLocalStorage('BaseElementIndex.siteId');
-    var $storedSiteOption = siteMenu.$options.filter('[data-site-id="' + storedSiteId + '"]:first');
-
-    if ($storedSiteOption.length) {
-        $storedSiteOption.trigger('click');
     }
+
 
     $('.entryrelationsmanager').on('click', '.remove', function(e) {
         if (!confirm("Are you sure you want to remove these relations?")) {

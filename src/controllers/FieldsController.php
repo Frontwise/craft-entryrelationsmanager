@@ -43,7 +43,11 @@ class FieldsController extends Controller
         $request = Craft::$app->getRequest();
         $siteId = $request->getBodyParam('siteId');
         if (!$siteId) {
-            $siteId = Craft::$app->getSites()->currentSite->id;
+            if (!Craft::$app->getIsMultiSite()) {
+                $siteId = NULL;
+            } else {
+                $siteId = Craft::$app->getSites()->currentSite->id;
+            }
         }
 
         $fields = [];
@@ -100,7 +104,11 @@ class FieldsController extends Controller
         $request = Craft::$app->getRequest();
         $siteId = $request->getBodyParam('siteId');
         if (!$siteId) {
-            $siteId = Craft::$app->getSites()->currentSite->id;
+            if (!Craft::$app->getIsMultiSite()) {
+                $siteId = NULL;
+            } else {
+                $siteId = Craft::$app->getSites()->currentSite->id;
+            }
         }
         $fieldId = $request->getBodyParam('fieldId');
         $targetId = $request->getBodyParam('targetId');
@@ -162,7 +170,7 @@ class FieldsController extends Controller
 
         // Select existing relations that should be updated
         $relations = (new Query)
-            ->select('r.id')
+            ->select(['r.id', 'sourceId'])
             ->from('{{%relations}} r')
             ->leftJoin('{{%elements_sites}} e', '[[r.targetId]] = [[e.elementId]]')
             ->andWhere(['r.fieldId' => $fieldId])
@@ -171,6 +179,10 @@ class FieldsController extends Controller
             ->all();
         $relationIds = [];
         foreach ($relations as $relation) {
+            if ($relation['sourceId'] == $newTargetId) {
+                // Can't relate an entry to itself
+                continue;
+            }
             $relationIds[] = $relation['id'];
         }
 
