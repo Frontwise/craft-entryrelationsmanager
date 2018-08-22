@@ -8,7 +8,7 @@ This plugin requires Craft CMS 3.0.20 or later.
 
 To install the plugin, follow these steps:
 
-1. Go to the Craft Plugin Store and search for 'Entry Relations Manager'.
+1. Go to the Craft Plugin Store and search for 'Entry Relations'.
 
 2. Buy or try the plugin
 
