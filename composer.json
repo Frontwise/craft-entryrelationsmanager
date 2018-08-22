@@ -1,7 +1,7 @@
 {
   "name": "frontwise/craft-entryrelationsmanager",
   "description": "Keep track of relations to entries. See which entries are safe to delete, and easily replace entry relations",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "type": "craft-plugin",
   "keywords": [
         "craft",
