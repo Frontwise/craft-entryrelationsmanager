@@ -14,4 +14,4 @@ To install the plugin, follow these steps:
 
 3. Go to Settings > Plugins
 
-4. Install the Entry Relations Manager plugin
+4. Install the Entry Relations plugin
